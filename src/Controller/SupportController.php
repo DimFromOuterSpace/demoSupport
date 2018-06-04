@@ -17,7 +17,10 @@ class SupportController extends AbstractController
      */
     public function index(SupportRepository $supportRepository)
     {
-        return $this->render('admin/empty_page.html.twig',['admin'=> 'toto']);
+        /** @var Support[] $supports */
+        $supports = $supportRepository->findAll();
+
+        return $this->render('support/liste.html.twig',['supports'=> $supports]);
     }
 
     /**
@@ -28,6 +31,6 @@ class SupportController extends AbstractController
         $support = new Support();
         $form = $this->createForm(SupportType::class);
 
-        return $this->render('admin/empty_page.html.twig',['admin'=> 'toto']);
+        return $this->render('support/new.html.twig',['form'=> $form->createView()]);
     }
 }
