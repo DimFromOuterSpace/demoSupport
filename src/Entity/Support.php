@@ -41,6 +41,12 @@ class Support
     private $createdAt;
 
     /**
+     * @var Company
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="supports")
+     */
+    private $company;
+
+    /**
      * Support constructor.
      */
     public function __construct()
@@ -110,5 +116,21 @@ class Support
     public function setCreatedAt(?\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return Company
+     */
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    /**
+     * @param Company $company
+     */
+    public function setCompany(?Company $company): void
+    {
+        $this->company = $company;
     }
 }
