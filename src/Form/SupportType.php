@@ -17,8 +17,8 @@ class SupportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('description', TextType::class);
+            ->add('title', TextType::class, array('required'=>true))
+            ->add('description', TextType::class, array('required'=>true));
     }
 
     /**
