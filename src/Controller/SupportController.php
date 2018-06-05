@@ -40,7 +40,7 @@ class SupportController extends AbstractController
     public function index()
     {
         /** @var Support[] $supports */
-        $supports = $this->supportRepository->findAll();
+        $supports = $this->supportRepository->getLastSupport(5);
 
         return $this->render('support/liste.html.twig', ['supports' => $supports]);
     }

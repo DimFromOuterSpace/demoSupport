@@ -12,8 +12,8 @@ class AdminController extends AbstractController
 {
     /**
      * @Route(
-     *      path = "/admin",
-     *      name = "admin_list",
+     *      path = "/empty-page",
+     *      name = "empty_page",
      *     methods={"GET"}
      * )
      * @return Response

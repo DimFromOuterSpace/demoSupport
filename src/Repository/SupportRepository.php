@@ -12,4 +12,11 @@ class SupportRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Support::class);
     }
+
+    public function getLastSupport($number=10) {
+        $queryBuilder = $this->createQueryBuilder('support')
+            ->orderBy('support.id', 'DESC')
+            ->setMaxResults($number);
+        return $queryBuilder->getQuery()->getResult();
+    }
 }
