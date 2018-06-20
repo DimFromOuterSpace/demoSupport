@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {%  for element in companies %}
+        <p>
+            {{ element.label }}
+            {{ element.active}}
+
+            {% for support in element.supports %}
+                {{ support.title }}
+            {% endfor %}
+
+            <a href="{{ path('company_show', { 'id': element.id }) }}">Voir l'entreprise</a>
+            <a href="{{ path('company_update', { 'id': element.id }) }}">Modifier l'entreprise</a>
+        </p>
+    {% endfor %}
+{% endblock %}
