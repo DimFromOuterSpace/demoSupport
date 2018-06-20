@@ -8,11 +8,10 @@ use App\Repository\CompanyRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class CompanyController
- * @package App\Controller
+ * Class CompanyController.
+ *
  * @Route(
  *     path="company",
  *     name="company_"
@@ -56,12 +55,14 @@ class CompanyController extends AbstractController
         $company = new Company();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($company);
             $manager->flush();
-            return $this->redirectToRoute("company_show", ['id'=>$company->getId()]);
+
+            return $this->redirectToRoute('company_show', ['id' => $company->getId()]);
         }
+
         return $this->render('company/new.html.twig', ['form' => $form->createView()]);
     }
 
@@ -75,12 +76,14 @@ class CompanyController extends AbstractController
     {
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($company);
             $manager->flush();
-            return $this->redirectToRoute("company_show", ['id'=>$company->getId()]);
+
+            return $this->redirectToRoute('company_show', ['id' => $company->getId()]);
         }
+
         return $this->render('company/update.html.twig', ['form' => $form->createView()]);
     }
 
@@ -92,12 +95,13 @@ class CompanyController extends AbstractController
      */
     public function deleteCompany(Request $request, Company $company)
     {
-        if(!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
+        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             return $this->redirectToRoute('company_list', ['company' => $company]);
         }
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($company);
         $manager->flush();
+
         return $this->redirectToRoute('company_list');
     }
 
@@ -111,8 +115,7 @@ class CompanyController extends AbstractController
     public function showCompany(Company $company)
     {
         return $this->render('company/show.html.twig', [
-            'company' => $company
+            'company' => $company,
         ]);
-
     }
 }

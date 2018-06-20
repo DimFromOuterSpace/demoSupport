@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,12 +17,14 @@ class ProjectController extends AbstractController
      *      name = "project_list",
      *     methods={"GET"}
      * )
+     *
      * @param ProjectRepository $projectRepository
+     *
      * @return Response
      */
     public function index(ProjectRepository $projectRepository)
     {
-        return $this->render('project/listProject.html.twig',['admin'=> 'toto']);
+        return $this->render('project/listProject.html.twig', ['admin' => 'toto']);
     }
 
     /**
@@ -34,9 +35,6 @@ class ProjectController extends AbstractController
         $project = new Project();
         $form = $this->createForm(ProjectType::class);
 
-        return $this->render('admin/empty_page.html.twig',['admin'=> 'toto']);
+        return $this->render('admin/empty_page.html.twig', ['admin' => 'toto']);
     }
-
-
-
 }

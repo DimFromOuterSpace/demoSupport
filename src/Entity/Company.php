@@ -43,6 +43,7 @@ class Company
 
     /**
      * Company constructor.
+     *
      * @param int $id
      */
     public function __construct()
@@ -99,8 +100,7 @@ class Company
     {
         $support->setCompany($this);
 
-        if(!$this->supports->contains($support))
-        {
+        if (!$this->supports->contains($support)) {
             $this->supports->add($support);
         }
     }
@@ -112,13 +112,12 @@ class Company
     }
 
     /**
-     * TODO methode requise pour easyadmin
+     * TODO methode requise pour easyadmin.
+     *
      * @return string
      */
     public function __toString()
     {
         return $this->label;
     }
-
-
 }

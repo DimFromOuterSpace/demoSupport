@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  */
@@ -28,7 +26,7 @@ class Project
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    private $status=true;
+    private $status = true;
 
     /**
      * @return mixed
@@ -37,7 +35,6 @@ class Project
     {
         return $this->id;
     }
-
 
     /**
      * @return string
@@ -70,6 +67,4 @@ class Project
     {
         $this->status = $status;
     }
-
-
 }

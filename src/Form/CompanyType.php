@@ -13,13 +13,13 @@ class CompanyType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label', TextType::class, array('required'=>true))
-            ->add('active', CheckboxType::class, array('required'=>false));
+            ->add('label', TextType::class, ['required' => true])
+            ->add('active', CheckboxType::class, ['required' => false]);
     }
 
     /**

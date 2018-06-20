@@ -8,11 +8,10 @@ use App\Repository\SupportRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class SupportController
- * @package App\Controller
+ * Class SupportController.
+ *
  * @Route(
  *     path="support",
  *     name="support_"
@@ -56,12 +55,14 @@ class SupportController extends AbstractController
         $support = new Support();
         $form = $this->createForm(SupportType::class, $support);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($support);
             $manager->flush();
-            return $this->redirectToRoute("support_show", ['id'=>$support->getId()]);
+
+            return $this->redirectToRoute('support_show', ['id' => $support->getId()]);
         }
+
         return $this->render('support/new.html.twig', ['form' => $form->createView()]);
     }
 
@@ -75,12 +76,14 @@ class SupportController extends AbstractController
     {
         $form = $this->createForm(SupportType::class, $support);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($support);
             $manager->flush();
-            return $this->redirectToRoute("support_show", ['id'=>$support->getId()]);
+
+            return $this->redirectToRoute('support_show', ['id' => $support->getId()]);
         }
+
         return $this->render('support/update.html.twig', ['form' => $form->createView()]);
     }
 
@@ -92,12 +95,13 @@ class SupportController extends AbstractController
      */
     public function deleteSupport(Request $request, Support $support)
     {
-        if(!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
+        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             return $this->redirectToRoute('support_list', ['support' => $support]);
         }
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($support);
         $manager->flush();
+
         return $this->redirectToRoute('support_list');
     }
 
@@ -111,8 +115,7 @@ class SupportController extends AbstractController
     public function showSupport(Support $support)
     {
         return $this->render('support/show.html.twig', [
-            'support' => $support
+            'support' => $support,
         ]);
-
     }
 }
