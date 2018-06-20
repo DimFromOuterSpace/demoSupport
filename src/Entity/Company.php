@@ -110,4 +110,15 @@ class Company
         $support->setCompany(null);
         $this->supports->removeElement($support);
     }
+
+    /**
+     * TODO methode requise pour easyadmin
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->label;
+    }
+
+
 }

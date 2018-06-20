@@ -2,7 +2,21 @@ easy_admin:
     entities:
       Support:
         class: App\Entity\Support
-        list:
+        form:
           fields:
-            - id
             - title
+            - description
+            - { property: 'company' , type: 'easyadmin_autocomplete' ,type_options: { class: 'App\Entity\Company' } }
+      Company:
+        class: App\Entity\Company
+        fields:
+          - id
+          - label
+          - isActive
+      Project:
+        class: App\Entity\Project
+        fields:
+          - id
+          - nom
+          - status
+
