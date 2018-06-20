@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class AdminController extends AbstractController
 {
@@ -16,10 +14,11 @@ class AdminController extends AbstractController
      *      name = "empty_page",
      *     methods={"GET"}
      * )
+     *
      * @return Response
      */
     public function emptyPage()
     {
-        return $this->render('admin/empty_page.html.twig',['admin'=> 'toto']);
+        return $this->render('admin/empty_page.html.twig', ['admin' => 'toto']);
     }
 }
