@@ -19,6 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SupportController extends AbstractController
 {
+    const MAX_SUPPORT_PAGE = 10;
+
     /**
      * @var SupportRepository
      */
@@ -33,15 +35,18 @@ class SupportController extends AbstractController
     }
 
     /**
-     * @Route(path = "",
-     *          name="list")
+     * @Route(
+     *     path = "",
+     *     name="list"
+     *)
      */
-    public function index()
+    public function index(Request $request)
     {
-        /** @var Support[] $supports */
-        $supports = $this->supportRepository->getLastSupport(5);
+        $page = $request->query->get('page', 1);
 
-        return $this->render('support/liste.html.twig', ['supports' => $supports]);
+        $pager = $this->supportRepository->getLastSupport(self::MAX_SUPPORT_PAGE, $page);
+
+        return $this->render('support/liste.html.twig', ['supports' => $pager]);
     }
 
     /**

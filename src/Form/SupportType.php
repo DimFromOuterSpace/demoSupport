@@ -14,7 +14,7 @@ class SupportType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,7 +23,7 @@ class SupportType extends AbstractType
             ->add('description', TextType::class, ['required' => true])
             ->add('company', EntityType::class, [
                 'class' => Company::class,
-                'choice_label' => 'label',]);
+                'choice_label' => 'label', ]);
     }
 
     /**

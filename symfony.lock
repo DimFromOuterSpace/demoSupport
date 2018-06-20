@@ -356,6 +356,9 @@
     "twig/twig": {
         "version": "v2.4.8"
     },
+    "white-october/pagerfanta-bundle": {
+        "version": "v1.2.1"
+    },
     "zendframework/zend-code": {
         "version": "3.3.0"
     },

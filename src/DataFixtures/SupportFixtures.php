@@ -12,12 +12,12 @@ class SupportFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < 20; ++$i) {
+        for ($i = 1; $i <= 10000; ++$i) {
             $support = new Support();
             $support->setTitle('Demande '.$i);
             $support->setDescription('Ceci est un test de descriptif pour la demande '.$i);
             $support->setCreatedAt(new \DateTime());
-            $support->setCompany($this->getReference('company-1'));
+            $support->setCompany($this->getReference('company-'.($i % 5 + 1)));
             $manager->persist($support);
         }
 

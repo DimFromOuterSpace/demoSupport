@@ -12,4 +12,9 @@
             <a href="{{ path('support_update', { 'id': element.id }) }}">Modifier la demande</a>
         </p>
     {% endfor %}
+
+    {% if supports.haveToPaginate %}
+        {{  pagerfanta(supports, 'twitter_bootstrap4') }}
+    {% endif %}
+
 {% endblock %}

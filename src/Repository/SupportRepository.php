@@ -4,6 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Support;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class SupportRepository extends ServiceEntityRepository
@@ -13,12 +16,22 @@ class SupportRepository extends ServiceEntityRepository
         parent::__construct($registry, Support::class);
     }
 
-    public function getLastSupport($number = 10)
+    private function paginate(QueryBuilder $queryBuilder, int $number, int $page): Pagerfanta
+    {
+        $pager = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
+        $pager->setMaxPerPage($number);
+        $pager->setCurrentPage($page);
+
+        return $pager;
+    }
+
+    public function getLastSupport($number = 10, $page = 1): Pagerfanta
     {
         $queryBuilder = $this->createQueryBuilder('support')
-            ->orderBy('support.id', 'DESC')
-            ->setMaxResults($number);
+            ->select('support', 'company')
+            ->innerJoin('support.company', 'company')
+            ->orderBy('support.id', 'DESC');
 
-        return $queryBuilder->getQuery()->getResult();
+        return $this->paginate($queryBuilder, $number, $page);
     }
 }
