@@ -1,0 +1,8 @@
+easy_admin:
+    entities:
+      Support:
+        class: App\Entity\Support
+        list:
+          fields:
+            - id
+            - title
