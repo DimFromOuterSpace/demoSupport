@@ -2,17 +2,17 @@
 
 {% block body %}
 
-    {%  for element in companies %}
+    {%  for company in companies %}
         <p>
-            {{ element.label }}
-            {{ element.active}}
+            {{ company.label }}
+            {{ ('company.active.'~(company.active?'1':'0')) | trans }}
 
-            {% for support in element.supports %}
-                {{ support.title }}
-            {% endfor %}
-
-            <a href="{{ path('company_show', { 'id': element.id }) }}">Voir l'entreprise</a>
-            <a href="{{ path('company_update', { 'id': element.id }) }}">Modifier l'entreprise</a>
+            <a href="{{ path('company_show', { 'id': company.id }) }}">Voir l'entreprise</a>
+            <a href="{{ path('company_update', { 'id': company.id }) }}">Modifier l'entreprise</a>
         </p>
     {% endfor %}
+
+
+
+
 {% endblock %}

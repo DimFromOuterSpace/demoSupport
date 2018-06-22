@@ -37,14 +37,15 @@ class Company
 
     /**
      * @var Support[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="App\Entity\Support", mappedBy="company")
+     * @ORM\OneToMany(  targetEntity="App\Entity\Support",
+     *                  mappedBy="company",
+     *                  orphanRemoval=true,
+     *                  cascade={"persist"})
      */
     private $supports;
 
     /**
      * Company constructor.
-     *
-     * @param int $id
      */
     public function __construct()
     {

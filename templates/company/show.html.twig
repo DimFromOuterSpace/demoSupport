@@ -11,5 +11,36 @@
             <button type="submit">Supprimer</button>
         </form>
     </div>
+
+    <div class="container">
+        <h2>Supports pour la company</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Numéro demande</th>
+                <th>Description</th>
+                <th>Date de Création</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for support in supports %}
+                {# @var support \App\Entity\Support #}
+                <tr>
+                    <td>{{ support.id }}</td>
+                    <td>{{ support.title }}</td>
+                    <td>{{ support.createdAt | localizeddate('full','medium') }}</td>
+                    <td><a href="{{ path('support_show', { 'id': support.id }) }}">Voir la demande</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if supports.haveToPaginate %}
+        {{  pagerfanta(supports, 'twitter_bootstrap4') }}
+    {% endif %}
 {% endblock %}
+
+
+
 
