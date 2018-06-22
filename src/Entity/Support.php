@@ -35,13 +35,14 @@ class Support
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(type = "datetime", nullable = false)
      */
     private $createdAt;
 
     /**
      * @var Company
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="supports")
      */
     private $company;
@@ -60,14 +61,6 @@ class Support
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
     }
 
     /**

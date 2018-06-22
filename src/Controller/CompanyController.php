@@ -8,7 +8,10 @@ use App\Repository\CompanyRepository;
 use App\Repository\SupportRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
+use App\Events;
 
 /**
  * Class CompanyController.
@@ -53,7 +56,7 @@ class CompanyController extends AbstractController
      *     name="new"
      * )
      */
-    public function newCompany(Request $request)
+    public function newCompany(Request $request, EventDispatcherInterface $dispatcher)
     {
         $company = new Company();
         $form = $this->createForm(CompanyType::class, $company);
@@ -62,6 +65,7 @@ class CompanyController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($company);
             $manager->flush();
+            $dispatcher->dispatch(Events::COMPANY_CREATED, new GenericEvent($company));
 
             return $this->redirectToRoute('company_show', ['id' => $company->getId()]);
         }

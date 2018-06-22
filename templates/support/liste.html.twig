@@ -1,20 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="container">
+        {%  for element in supports %}
+            <p>
+                <div>
+                    {{ element.title }} ({{ element.createdAt | date}})
+                    {{ element.company.label }}
+                </div>
+                <div>
+                    <a class="btn btn-primary" href="{{path('support_show', { 'id': element.id })}}">Voir la demande</a>
+                    <a class="btn btn-primary" href="{{path('support_update', { 'id': element.id}) }}">Modifier la demande</a>
+                </div>
+            </p>
+        {% endfor %}
 
-    {%  for element in supports %}
-        <p>
-            {{ element.title }}
-            {{ element.createdAt | date}}
-            {{ element.company.label }}
-            {{ element.description }}
-            <a href="{{ path('support_show', { 'id': element.id }) }}">Voir la demande</a>
-            <a href="{{ path('support_update', { 'id': element.id }) }}">Modifier la demande</a>
-        </p>
-    {% endfor %}
-
-    {% if supports.haveToPaginate %}
-        {{  pagerfanta(supports, 'twitter_bootstrap4') }}
-    {% endif %}
-
+        {% if supports.haveToPaginate %}
+            {{  pagerfanta(supports, 'twitter_bootstrap4') }}
+        {% endif %}
+    </div>
 {% endblock %}

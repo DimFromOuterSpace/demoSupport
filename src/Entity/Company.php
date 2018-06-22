@@ -24,16 +24,24 @@ class Company
     /**
      * @var string
      * @Assert\NotBlank()
-     * @ORM\Column(type = "string")
+     * @ORM\Column(type = "string", nullable=false)
      */
     private $label;
 
     /**
      * @var bool
      * @Assert\NotNull()
-     * @ORM\Column(type = "boolean")
+     * @ORM\Column(type="boolean", nullable=false)
      */
     private $active = 1;
+
+    /**
+     * @var string
+     * @Assert\NotNull()
+     * @Assert\Email()
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $mailContact;
 
     /**
      * @var Support[]|ArrayCollection
@@ -74,6 +82,22 @@ class Company
     public function setLabel(?string $label): void
     {
         $this->label = $label;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMailContact(): ?string
+    {
+        return $this->mailContact;
+    }
+
+    /**
+     * @param null|string $mailContact
+     */
+    public function setMailContact(?string $mailContact): void
+    {
+        $this->mailContact = $mailContact;
     }
 
     /**
