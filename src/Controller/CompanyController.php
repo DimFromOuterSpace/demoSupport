@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\CompanyType;
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
+use App\Repository\SupportRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CompanyController extends AbstractController
 {
+    const MAX_SUPPORT_BY_COMPANY = 10;
+
     /**
      * @var CompanyRepository
      */
@@ -36,7 +39,7 @@ class CompanyController extends AbstractController
      * @Route(path = "",
      *          name="list")
      */
-    public function index()
+    public function index(Request $request)
     {
         /** @var Company[] $companies */
         $companies = $this->companyRepository->getLastCompanies(5);
@@ -112,10 +115,15 @@ class CompanyController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function showCompany(Company $company)
+    public function showCompany(Company $company, Request $request, SupportRepository $supportRepository)
     {
+        $page = $request->query->get('page', '1');
+
+        $pager = $supportRepository->getPaginatedSupportByCompany($company->getId(), self::MAX_SUPPORT_BY_COMPANY, $page);
+
         return $this->render('company/show.html.twig', [
             'company' => $company,
+            'supports' => $pager,
         ]);
     }
 }
