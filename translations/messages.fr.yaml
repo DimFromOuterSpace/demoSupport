@@ -1,0 +1,8 @@
+company.active:
+  0: "Inactif"
+  1: "Actif"
+mail:
+  company:
+    created:
+      subject: "Entreprise créée"
+      body: "Votre entreprise %company_name% vient d'être créée."

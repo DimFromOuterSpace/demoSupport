@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <p>{{ project.nom }}</p>
+        <a href="{{ path('project_list') }}">Retour à la liste</a>
+
+        <form method="POST" action="{{ path('project_delete', {'id': project.id}) }}">
+            <input type="hidden" name="token" value="{{ csrf_token('delete') }}">
+            <button type="submit">Supprimer</button>
+        </form>
+    </div>
+{% endblock %}
