@@ -4,6 +4,7 @@
     <div class="container">
         <p>{{ company.label }}</p>
         <p>{{ ('company.active.'~(company.active?'1':'0')) | trans }}</p>
+        <p>{{ company.mailContact }}</p>
         <a href="{{ path('company_list') }}">Retour à la liste</a>
 
         <form method="POST" action="{{ path('company_delete', {'id': company.id}) }}">

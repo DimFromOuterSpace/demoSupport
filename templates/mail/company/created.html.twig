@@ -1,0 +1,6 @@
+<h1>
+    {{ 'mail.company.created.subject' | trans }}
+</h1>
+<p>
+    {{ 'mail.company.created.body' | trans({'%company_name%':company.label}) }}
+</p>

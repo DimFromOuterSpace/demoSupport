@@ -15,6 +15,7 @@ class CompanyFixtures extends Fixture
         for ($i = 1; $i <= 5; ++$i) {
             $company = new Company();
             $company->setLabel('Entreprise '.$i);
+            $company->setMailContact('dusseno@os-concept.com');
             $manager->persist($company);
             $this->setReference('company-'.$i, $company);
         }

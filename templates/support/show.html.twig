@@ -5,11 +5,11 @@
         <p>{{ support.title }}</p>
         <p>{{ support.createdAt | date }}</p>
         <p>{{ support.description }}</p>
-        <a href="{{ path('support_list') }}">Retour à la liste</a>
 
         <form method="POST" action="{{ path('support_delete', {'id': support.id}) }}">
+            <a class="btn btn-primary" href="{{path('support_list')}}">Retour à la liste</a>
             <input type="hidden" name="token" value="{{ csrf_token('delete') }}">
-            <button type="submit">Supprimer</button>
+            <button type="submit" class="btn btn-primary">Supprimer la demande</button>
         </form>
     </div>
 {% endblock %}
