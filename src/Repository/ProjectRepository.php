@@ -12,4 +12,12 @@ class ProjectRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Project::class);
     }
+
+    public function getProject()
+    {
+        $queryBuilder = $this->createQueryBuilder('project')
+            ->orderBy('project.nom', 'ASC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

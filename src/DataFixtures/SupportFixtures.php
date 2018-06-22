@@ -1,7 +1,5 @@
 <?php
 
-// src/DataFixtures/SupportFixtures.php
-
 namespace App\DataFixtures;
 
 use App\Entity\Support;

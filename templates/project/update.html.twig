@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+
+        <a href="{{ path('project_list') }}">Retour à la liste</a>
+    </div>
+{% endblock %}

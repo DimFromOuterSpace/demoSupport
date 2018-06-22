@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {%  for project in projects %}
+        <p>
+            {{ project.nom }}
+
+            <a href="{{ path('project_show', { 'id': project.id }) }}">Voir le projet</a>
+            <a href="{{ path('project_update', { 'id': project.id }) }}">Modifier le projet</a>
+        </p>
+    {% endfor %}
+{% endblock %}

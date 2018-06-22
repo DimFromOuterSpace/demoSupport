@@ -1,7 +1,5 @@
 <?php
 
-// src/DataFixtures/CompanyFixtures.php
-
 namespace App\DataFixtures;
 
 use App\Entity\Company;
