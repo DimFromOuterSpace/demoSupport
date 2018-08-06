@@ -53,6 +53,15 @@ class Company
     private $supports;
 
     /**
+     * @var Support[]|ArrayCollection
+     * @ORM\OneToMany(  targetEntity="App\Entity\User",
+     *                  mappedBy="company",
+     *                  orphanRemoval=true,
+     *                  cascade={"persist"})
+     */
+    private $users;
+
+    /**
      * @var Project[]|ArrayCollection
      * @ORM\ManyToMany(
      *     targetEntity="App\Entity\Project",
@@ -149,6 +158,26 @@ class Company
     {
         $support->setCompany(null);
         $this->supports->removeElement($support);
+    }
+
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(?Support $user): void
+    {
+        $user->setCompany($this);
+
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+    }
+
+    public function removeUser(User $user): void
+    {
+        $user->setCompany(null);
+        $this->users->removeElement($user);
     }
 
     public function getProjects(): Collection

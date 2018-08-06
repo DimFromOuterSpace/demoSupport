@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Company;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -36,6 +37,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                     'password' => 'test',
                     'role' => ['ROLE_USER'],
                     'name' => 'user'.$i,
+                    'company' => 'company-1',
                 ];
         }
 
@@ -45,6 +47,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'password' => 'test',
                 'role' => ['ROLE_ADMIN'],
                 'name' => 'admin',
+                'company' => 'company-1',
             ];
 
         $this->users[] =
@@ -53,6 +56,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'password' => 'test',
                 'role' => ['ROLE_SUPER_ADMIN'],
                 'name' => 'super-admin',
+                'company' => 'company-1',
             ];
     }
 
@@ -91,6 +95,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setPassword($this->encoder->encodePassword($user, $userToCreate['password']));
         $user->setRoles($userToCreate['role']);
         $user->setUsername($userToCreate['name']);
+        $user->setCompany($this->getReference($userToCreate['company']));
 
         return $user;
     }

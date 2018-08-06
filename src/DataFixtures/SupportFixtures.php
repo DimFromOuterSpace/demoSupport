@@ -10,7 +10,7 @@ class SupportFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        for ($i = 1; $i <= 10000; ++$i) {
+        for ($i = 1; $i <= 2000; ++$i) {
             $support = new Support();
             $support->setTitle('Demande '.$i);
             $support->setDescription('Ceci est un test de descriptif pour la demande '.$i);

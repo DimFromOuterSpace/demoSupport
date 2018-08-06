@@ -4,12 +4,21 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User extends BaseUser
 {
+
+    /**
+     * @var Company
+     * @Assert\NotBlank()
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
+     */
+    private $company;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -20,5 +29,22 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+    }
+
+
+    /**
+     * @return Company
+     */
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    /**
+     * @param Company $company
+     */
+    public function setCompany(?Company $company): void
+    {
+        $this->company = $company;
     }
 }
