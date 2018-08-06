@@ -158,7 +158,7 @@ class Company
 
     public function addProject(?Project $project): void
     {
-        if(!$this->projects->contains($project)) {
+        if (!$this->projects->contains($project)) {
             $this->projects->add($project);
         }
     }

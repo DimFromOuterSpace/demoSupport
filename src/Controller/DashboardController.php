@@ -6,9 +6,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
 /**
- * Class DashboardController
+ * Class DashboardController.
+ *
  * @IsGranted("ROLE_USER")
  * @Route(
  *     path="dashboard",
@@ -27,6 +27,7 @@ class DashboardController extends AbstractController
     public function index()
     {
         dump($this->getUser());
+
         return $this->render('dashboard/index.html.twig');
     }
 }

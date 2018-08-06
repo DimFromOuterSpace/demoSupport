@@ -1,5 +1,7 @@
 <?php
+
 namespace App\DataFixtures;
+
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -9,7 +11,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture implements DependentFixtureInterface
 {
-
     /**
      * @var UserPasswordEncoderInterface
      */
@@ -28,30 +29,30 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $this->encoder = $encoder;
 
         //3 USER, 1 ADMIN, 1 SUPER ADMIN
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             $this->users[] =
                 [
-                    "mail"     => "user" . $i . "@test.com",
-                    "password" => "test",
-                    "role"     => ["ROLE_USER"],
-                    "name"     => "user" . $i
+                    'mail' => 'user'.$i.'@test.com',
+                    'password' => 'test',
+                    'role' => ['ROLE_USER'],
+                    'name' => 'user'.$i,
                 ];
         }
 
         $this->users[] =
             [
-                "mail"=>"admin@test.com",
-                "password"=>"test",
-                "role"=>["ROLE_ADMIN"],
-                "name"=>"admin"
+                'mail' => 'admin@test.com',
+                'password' => 'test',
+                'role' => ['ROLE_ADMIN'],
+                'name' => 'admin',
             ];
 
         $this->users[] =
             [
-                "mail"=>"super-admin@test.com",
-                "password"=>"test",
-                "role"=>["ROLE_SUPER_ADMIN"],
-                "name"=>"super-admin"
+                'mail' => 'super-admin@test.com',
+                'password' => 'test',
+                'role' => ['ROLE_SUPER_ADMIN'],
+                'name' => 'super-admin',
             ];
     }
 
@@ -60,7 +61,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        foreach($this->users as $user) {
+        foreach ($this->users as $user) {
             $userResult = $this->createUser($user);
             $manager->persist($userResult);
         }
@@ -79,17 +80,18 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
     /**
      * @param array $userToCreate
+     *
      * @return UserInterface
      */
-     private function createUser(array $userToCreate): UserInterface
-     {
-         $user = new User;
-         $user->setEmail($userToCreate["mail"]);
-         $user->setEnabled(true);
-         $user->setPassword($this->encoder->encodePassword($user, $userToCreate["password"]));
-         $user->setRoles($userToCreate["role"]);
-         $user->setUsername($userToCreate["name"]);
+    private function createUser(array $userToCreate): UserInterface
+    {
+        $user = new User();
+        $user->setEmail($userToCreate['mail']);
+        $user->setEnabled(true);
+        $user->setPassword($this->encoder->encodePassword($user, $userToCreate['password']));
+        $user->setRoles($userToCreate['role']);
+        $user->setUsername($userToCreate['name']);
 
-         return $user;
-     }
+        return $user;
+    }
 }
