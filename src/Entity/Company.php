@@ -63,6 +63,17 @@ class Company
      */
     private $projects;
 
+
+    /**
+     * @var User[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\User",
+     *                  cascade={"persist"})
+     *
+     */
+    private $users;
+
+
     /**
      * Company constructor.
      */
@@ -70,6 +81,7 @@ class Company
     {
         $this->supports = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -179,5 +191,23 @@ class Company
     public function __toString()
     {
         return $this->label;
+    }
+
+    /**
+     * @return User[]|ArrayCollection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param User[]|ArrayCollection $users
+     */
+    public function addUser(User $user): void
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
     }
 }

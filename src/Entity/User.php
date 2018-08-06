@@ -17,8 +17,33 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @var Company
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company",
+     *                  cascade={"persist"})
+     *
+     */
+    private $company;
+
     public function __construct()
     {
         parent::__construct();
+    }
+
+    /**
+     * @return Company
+     */
+    public function getCompany(): Company
+    {
+        return $this->company;
+    }
+
+    /**
+     * @param Company $company
+     */
+    public function setCompany(Company $company): void
+    {
+        $this->company = $company;
     }
 }

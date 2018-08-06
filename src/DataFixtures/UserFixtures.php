@@ -34,30 +34,35 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                'email' => 'dusseno@os-concept.com',
                'password' => 'dusseno',
                'roles' => [],
+               'company' => 'company-1',
             ],
             [
                 'username' => 'tdelecourt',
                 'email' => 'tdelecourt@os-concept.com',
                 'password' => 'tdelecourt',
                 'roles' => ['ROLE_USER'],
+                'company' => 'company-2',
             ],
             [
                 'username' => 'bcanape',
                 'email' => 'bcanape@os-concept.com',
                 'password' => 'bcanape',
                 'roles' => ['ROLE_USER'],
+                'company' => 'company-3',
             ],
             [
                 'username' => 'jrigaux',
                 'email' => 'jrigaux@os-concept.com',
                 'password' => 'jrigaux',
                 'roles' => ['ROLE_ADMIN'],
+                'company' => 'company-4',
             ],
             [
                 'username' => 'awelkamp',
                 'email' => 'awelkamp@os-concept.com',
                 'password' => 'awelkamp',
                 'roles' => ['ROLE_SUPER_ADMIN'],
+                'company' => 'company-5',
             ],
         ];
     }
@@ -97,6 +102,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setEmail($tabUser['email']);
         $user->setEnabled(1);
         $user->setRoles($tabUser['roles']);
+
+        $user->setCompany($tabUser['company']);
 
         $password = $this->passwordEncoder->encodePassword($user, $tabUser['password']);
         $user->setPassword($password);
