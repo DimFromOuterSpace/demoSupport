@@ -9,8 +9,10 @@
                     </div>
                 </form>
             </div>
+            {% if (is_granted('ROLE_ADMIN')) %}
             <div class="col-lg order-lg-first">
                 <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+
                     <li class="nav-item">
                         <a href="{{path('support_list')}}" class="nav-link"><i class="fe"></i> Support</a>
                     </li>
@@ -22,6 +24,7 @@
                     </li>
                 </ul>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 company.active:
-  0: "Disabled"
-  1: "Enabled"
+    0: "Disabled"
+    1: "Enabled"
 mail:
   company:
     created:
