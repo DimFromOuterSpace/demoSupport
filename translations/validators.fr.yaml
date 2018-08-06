@@ -1,0 +1,4 @@
+company:
+  constraint:
+    project:
+      min: "Une entreprise doit avoir au moins %limit% projet(s)"

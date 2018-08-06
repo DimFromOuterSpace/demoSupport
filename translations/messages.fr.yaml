@@ -1,6 +1,7 @@
-company.active:
-  0: "Inactif"
-  1: "Actif"
+company:
+  active:
+    0: "Inactif"
+    1: "Actif"
 mail:
   company:
     created:

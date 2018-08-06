@@ -35,11 +35,11 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>
 
-    {% if supports.haveToPaginate %}
-        {{  pagerfanta(supports, 'twitter_bootstrap4') }}
-    {% endif %}
+        {% if supports.haveToPaginate %}
+            {{  pagerfanta(supports, 'twitter_bootstrap4') }}
+        {% endif %}
+    </div>
 {% endblock %}
 
 

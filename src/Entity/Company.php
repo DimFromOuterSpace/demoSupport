@@ -53,11 +53,26 @@ class Company
     private $supports;
 
     /**
+     * @var Project[]|ArrayCollection
+     * @ORM\ManyToMany(
+     *     targetEntity="App\Entity\Project",
+     *     cascade={"persist"}
+     *     )
+     * @ORM\OrderBy(
+     *     {"nom":"ASC"}
+     * )
+     * @Assert\Count(min="0",minMessage="company.constraint.project.min")
+     */
+    //TODO : revoir fixtures
+    private $projects;
+
+    /**
      * Company constructor.
      */
     public function __construct()
     {
         $this->supports = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     /**
@@ -134,6 +149,23 @@ class Company
     {
         $support->setCompany(null);
         $this->supports->removeElement($support);
+    }
+
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(?Project $project): void
+    {
+        if(!$this->projects->contains($project)) {
+            $this->projects->add($project);
+        }
+    }
+
+    public function removeProject(Project $project): void
+    {
+        $this->projects->removeElement($project);
     }
 
     /**
