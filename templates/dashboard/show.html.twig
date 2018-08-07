@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <p>{{ support.title }}</p>
+        <p>{{ support.createdAt | date }}</p>
+        <p>{{ support.description }}</p>
+
+        <a class="btn btn-primary" href="{{path('dashboard_index')}}">Retour à la liste</a>
+    </div>
+{% endblock %}
+

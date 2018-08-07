@@ -4,17 +4,14 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User extends BaseUser
 {
-
     /**
      * @var Company
-     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
      */
     private $company;
@@ -30,7 +27,6 @@ class User extends BaseUser
     {
         parent::__construct();
     }
-
 
     /**
      * @return Company

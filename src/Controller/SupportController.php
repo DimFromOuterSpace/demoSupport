@@ -2,18 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\SupportType;
 use App\Entity\Support;
 use App\Repository\SupportRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class SupportController.
- *
  * @Route(
- *     path="support",
+ *     path="dashboard/support",
  *     name="support_"
  * )
  */
@@ -27,7 +27,7 @@ class SupportController extends AbstractController
     private $supportRepository;
 
     /**
-     * SupportController constructor.
+     * @param SupportRepository $supportRepository
      */
     public function __construct(SupportRepository $supportRepository)
     {
@@ -35,79 +35,36 @@ class SupportController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route(
-     *     path = "",
-     *     name="list"
-     *)
-     */
-    public function index(Request $request)
-    {
-        $page = $request->query->get('page', 1);
-
-        $pager = $this->supportRepository->getLastSupport(self::MAX_SUPPORT_PAGE, $page);
-
-        return $this->render('support/liste.html.twig', ['supports' => $pager]);
-    }
-
-    /**
-     * @Route(
-     *     path = "/new",
+     *     path="/new",
      *     name="new"
      * )
      */
     public function newSupport(Request $request)
     {
         $support = new Support();
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if (!$user->getCompany()) {
+            return $this->redirectToRoute('dashboard_index');
+        }
+
         $form = $this->createForm(SupportType::class, $support);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $support->setCompany($user->getCompany());
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($support);
             $manager->flush();
 
-            return $this->redirectToRoute('support_show', ['id' => $support->getId()]);
+            return $this->redirectToRoute('dashboard_index');
         }
 
-        return $this->render('support/new.html.twig', ['form' => $form->createView()]);
-    }
-
-    /**
-     * @Route(
-     *     path = "/update/{id}",
-     *     name="update"
-     * )
-     */
-    public function updateSupport(Request $request, Support $support)
-    {
-        $form = $this->createForm(SupportType::class, $support);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($support);
-            $manager->flush();
-
-            return $this->redirectToRoute('support_show', ['id' => $support->getId()]);
-        }
-
-        return $this->render('support/update.html.twig', ['form' => $form->createView()]);
-    }
-
-    /**
-     * @Route(
-     *     path = "/delete/{id}",
-     *     name="delete"
-     * )
-     */
-    public function deleteSupport(Request $request, Support $support)
-    {
-        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
-            return $this->redirectToRoute('support_list', ['support' => $support]);
-        }
-        $manager = $this->getDoctrine()->getManager();
-        $manager->remove($support);
-        $manager->flush();
-
-        return $this->redirectToRoute('support_list');
+        return $this->render('dashboard/new.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -117,9 +74,18 @@ class SupportController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function showSupport(Support $support)
+    public function showSupport(int $id)
     {
-        return $this->render('support/show.html.twig', [
+        $support = $this->supportRepository->findOneBy([
+            'id' => $id,
+            'company' => $this->getUser()->getCompany(),
+        ]);
+
+        if (!$support) {
+            throw $this->createNotFoundException(sprintf('%s', 'Aucun support trouvé pour votre société.'));
+        }
+
+        return $this->render('dashboard/show.html.twig', [
             'support' => $support,
         ]);
     }

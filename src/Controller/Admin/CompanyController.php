@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
-use App\Form\CompanyType;
+use App\Form\Admin\CompanyType;
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
 use App\Repository\SupportRepository;
@@ -17,8 +17,8 @@ use App\Events;
  * Class CompanyController.
  *
  * @Route(
- *     path="company",
- *     name="company_"
+ *     path="admin/company",
+ *     name="admin_company_"
  * )
  */
 class CompanyController extends AbstractController
@@ -47,7 +47,7 @@ class CompanyController extends AbstractController
         /** @var Company[] $companies */
         $companies = $this->companyRepository->getLastCompanies(5);
 
-        return $this->render('company/liste.html.twig', ['companies' => $companies]);
+        return $this->render('admin/company/liste.html.twig', ['companies' => $companies]);
     }
 
     /**
@@ -67,10 +67,10 @@ class CompanyController extends AbstractController
             $manager->flush();
             $dispatcher->dispatch(Events::COMPANY_CREATED, new GenericEvent($company));
 
-            return $this->redirectToRoute('company_show', ['id' => $company->getId()]);
+            return $this->redirectToRoute('admin_company_show', ['id' => $company->getId()]);
         }
 
-        return $this->render('company/new.html.twig', ['form' => $form->createView()]);
+        return $this->render('admin/company/new.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -88,10 +88,10 @@ class CompanyController extends AbstractController
             $manager->persist($company);
             $manager->flush();
 
-            return $this->redirectToRoute('company_show', ['id' => $company->getId()]);
+            return $this->redirectToRoute('admin_company_show', ['id' => $company->getId()]);
         }
 
-        return $this->render('company/update.html.twig', ['form' => $form->createView()]);
+        return $this->render('admin/company/update.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -103,13 +103,13 @@ class CompanyController extends AbstractController
     public function deleteCompany(Request $request, Company $company)
     {
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
-            return $this->redirectToRoute('company_list', ['company' => $company]);
+            return $this->redirectToRoute('admin_company_list', ['company' => $company]);
         }
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($company);
         $manager->flush();
 
-        return $this->redirectToRoute('company_list');
+        return $this->redirectToRoute('admin_company_list');
     }
 
     /**
@@ -125,7 +125,7 @@ class CompanyController extends AbstractController
 
         $pager = $supportRepository->getPaginatedSupportByCompany($company->getId(), self::MAX_SUPPORT_BY_COMPANY, $page);
 
-        return $this->render('company/show.html.twig', [
+        return $this->render('admin/company/show.html.twig', [
             'company' => $company,
             'supports' => $pager,
         ]);

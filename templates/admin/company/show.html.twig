@@ -5,9 +5,9 @@
         <p>{{ company.label }}</p>
         <p>{{ ('company.active.'~(company.active?'1':'0')) | trans }}</p>
         <p>{{ company.mailContact }}</p>
-        <a href="{{ path('company_list') }}">Retour à la liste</a>
+        <a href="{{ path('admin_company_list') }}">Retour à la liste</a>
 
-        <form method="POST" action="{{ path('company_delete', {'id': company.id}) }}">
+        <form method="POST" action="{{ path('admin_company_delete', {'id': company.id}) }}">
             <input type="hidden" name="token" value="{{ csrf_token('delete') }}">
             <button type="submit">Supprimer</button>
         </form>
@@ -30,7 +30,7 @@
                     <td>{{ support.id }}</td>
                     <td>{{ support.title }}</td>
                     <td>{{ support.createdAt | localizeddate('full','medium') }}</td>
-                    <td><a href="{{ path('support_show', { 'id': support.id }) }}">Voir la demande</a></td>
+                    <td><a href="{{ path('admin_support_show', { 'id': support.id }) }}">Voir la demande</a></td>
                 </tr>
             {% endfor %}
             </tbody>

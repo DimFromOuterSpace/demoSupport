@@ -2,7 +2,29 @@
 
 {% block body %}
     <div class="container">
-        Salut tout le monde !
-        {% dump(app.user) %}
+        <table class="table">
+            {% if supports is null %}
+                Vous n'avez pas de compagnie d'affectée, veuillez mettre votre compte à jour.
+            {% else %}
+                <tr>
+                    <th>Titre</th>
+                    <th>Date création</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+                {%  for element in supports %}
+                    <tr>
+                        <td>{{ element.title }}</td>
+                        <td>{{ element.createdAt | date }}</td>
+                        <td>{{ element.description }}</td>
+                        <td><a class="btn btn-primary" href="{{path('support_show', { 'id': element.id })}}">Voir la demande</a</td>
+                    </tr>
+                {% endfor %}
+
+                {% if supports.haveToPaginate %}
+                    {{  pagerfanta(supports, 'twitter_bootstrap4') }}
+                {% endif %}
+            {% endif %}
+        </table>
     </div>
-{% endblock body %}
+{% endblock %}

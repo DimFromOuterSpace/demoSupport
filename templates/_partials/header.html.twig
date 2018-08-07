@@ -9,8 +9,14 @@
                     <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
                         <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
                         <span class="ml-2 d-none d-lg-block">
-                      <span class="text-default">Jane Pearson</span>
-                      <small class="text-muted d-block mt-1">Administrator</small>
+                            {% if app.user is not null %}
+                                <span class="text-default">{{ app.user.username }}</span>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <small class="text-muted d-block mt-1">Administrateur</small>
+                            {% elseif is_granted('ROLE_USER') %}
+                                <small class="text-muted d-block mt-1">Utilisateur</small>
+                            {% endif %}
                     </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">

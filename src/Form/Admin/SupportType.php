@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Admin;
 
+use App\Entity\Company;
 use App\Entity\Support;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,6 +21,11 @@ class SupportType extends AbstractType
         $builder
             ->add('title', TextType::class, ['required' => true])
             ->add('description', TextType::class, ['required' => true]);
+        $builder
+                ->add('company', EntityType::class, [
+                    'class' => Company::class,
+                    'choice_label' => 'label',
+                ]);
     }
 
     /**

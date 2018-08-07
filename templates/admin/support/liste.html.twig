@@ -9,8 +9,8 @@
                     {{ element.company.label }}
                 </div>
                 <div>
-                    <a class="btn btn-primary" href="{{path('support_show', { 'id': element.id })}}">Voir la demande</a>
-                    <a class="btn btn-primary" href="{{path('support_update', { 'id': element.id}) }}">Modifier la demande</a>
+                    <a class="btn btn-primary" href="{{path('admin_support_show', { 'id': element.id })}}">Voir la demande</a>
+                    <a class="btn btn-primary" href="{{path('admin_support_update', { 'id': element.id}) }}">Modifier la demande</a>
                 </div>
             </p>
         {% endfor %}
