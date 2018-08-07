@@ -33,6 +33,7 @@ class DashboardController extends AbstractController
         $user = $this->getUser();
 
         $company = $user->getCompany();
+
         if ($company) {
             $pager = $supportRepository->getPaginatedSupportByCompany($company->getId());
         }

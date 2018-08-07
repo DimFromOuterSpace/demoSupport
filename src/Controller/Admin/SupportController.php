@@ -43,7 +43,6 @@ class SupportController extends AbstractController
     public function index(Request $request)
     {
         $page = $request->query->get('page', 1);
-
         $pager = $this->supportRepository->getLastSupport(self::MAX_SUPPORT_PAGE, $page);
 
         return $this->render('admin/support/liste.html.twig', ['supports' => $pager]);
@@ -60,7 +59,9 @@ class SupportController extends AbstractController
         $support = new Support();
         $form = $this->createForm(SupportType::class, $support);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($support);
             $manager->flush();
@@ -81,6 +82,7 @@ class SupportController extends AbstractController
     {
         $form = $this->createForm(SupportType::class, $support);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($support);
@@ -100,9 +102,11 @@ class SupportController extends AbstractController
      */
     public function deleteSupport(Request $request, Support $support)
     {
+
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             return $this->redirectToRoute('admin_support_list', ['support' => $support]);
         }
+
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($support);
         $manager->flush();
@@ -119,6 +123,7 @@ class SupportController extends AbstractController
      */
     public function showSupport(Support $support)
     {
+
         return $this->render('admin/support/show.html.twig', [
             'support' => $support,
         ]);

@@ -20,11 +20,10 @@ class SupportType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['required' => true])
-            ->add('description', TextType::class, ['required' => true]);
-        $builder
-                ->add('company', EntityType::class, [
-                    'class' => Company::class,
-                    'choice_label' => 'label',
+            ->add('description', TextType::class, ['required' => true])
+            ->add('company', EntityType::class, [
+                'class' => Company::class,
+                'choice_label' => 'label',
                 ]);
     }
 

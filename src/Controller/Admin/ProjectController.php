@@ -82,6 +82,7 @@ class ProjectController extends AbstractController
      */
     public function showProject(Project $project)
     {
+
         return $this->render('admin/project/show.html.twig', [
             'project' => $project,
         ]);
@@ -103,6 +104,7 @@ class ProjectController extends AbstractController
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             return $this->redirectToRoute('admin_project_list', ['project' => $project]);
         }
+
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($project);
         $manager->flush();
@@ -125,6 +127,7 @@ class ProjectController extends AbstractController
     {
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($project);

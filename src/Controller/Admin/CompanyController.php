@@ -61,6 +61,7 @@ class CompanyController extends AbstractController
         $company = new Company();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($company);
@@ -83,6 +84,7 @@ class CompanyController extends AbstractController
     {
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($company);
@@ -103,8 +105,10 @@ class CompanyController extends AbstractController
     public function deleteCompany(Request $request, Company $company)
     {
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
+
             return $this->redirectToRoute('admin_company_list', ['company' => $company]);
         }
+
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($company);
         $manager->flush();

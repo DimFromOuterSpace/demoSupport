@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
 use App\Entity\User;
 use App\Form\SupportType;
 use App\Entity\Support;
@@ -76,13 +77,15 @@ class SupportController extends AbstractController
      */
     public function showSupport(int $id)
     {
+        /** @var Company $company */
+        $company = $this->getUser()->getCompany();
         $support = $this->supportRepository->findOneBy([
             'id' => $id,
-            'company' => $this->getUser()->getCompany(),
+            'company' => $company,
         ]);
 
         if (!$support) {
-            throw $this->createNotFoundException(sprintf('%s', 'Aucun support trouvé pour votre société.'));
+            throw $this->createNotFoundException(sprintf('Aucun support trouvé pour la société %s.', $company->getLabel()));
         }
 
         return $this->render('dashboard/show.html.twig', [
