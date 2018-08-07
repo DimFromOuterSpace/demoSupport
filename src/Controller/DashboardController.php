@@ -34,10 +34,17 @@ class DashboardController extends AbstractController
 
         $company = $user->getCompany();
 
-        if ($company) {
-            $pager = $supportRepository->getPaginatedSupportByCompany($company->getId());
+        if($company) {
+            $pagerCompany = $supportRepository->getPaginatedSupportByCompany($company->getId());
         }
 
-        return $this->render('dashboard/index.html.twig', ['supports' => $pager ?? null]);
+        if ($user) {
+            $pagerUser = $supportRepository->getPaginatedSupportByUser($user->getId());
+        }
+
+        return $this->render('dashboard/index.html.twig', [
+            'supportsCompany' => $pagerCompany ?? null,
+            'supportsUser' => $pagerUser ?? null
+        ]);
     }
 }

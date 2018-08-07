@@ -36,6 +36,16 @@ class SupportRepository extends ServiceEntityRepository
         return $this->paginate($queryBuilder, $number, $page);
     }
 
+    public function getPaginatedSupportByUser(int $idUser, int $number = 10, int $page = 1): Pagerfanta
+    {
+        $queryBuilder = $this->createQueryBuilder('support')
+            ->andWhere('support.author = :idUser')
+            ->setParameter('idUser', $idUser)
+            ->orderBy('support.id', 'DESC');
+
+        return $this->paginate($queryBuilder, $number, $page);
+    }
+
     private function paginate(QueryBuilder $queryBuilder, int $number, int $page): Pagerfanta
     {
         $pager = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));

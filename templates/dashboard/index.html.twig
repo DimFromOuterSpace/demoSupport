@@ -3,8 +3,9 @@
 {% block body %}
     <div class="container">
         <table class="table">
-            {% if supports is null %}
-                Vous n'avez pas de compagnie d'affectée, veuillez mettre votre compte à jour.
+            Mes demandes :
+            {% if supportsCompany is null %}
+                Vous n'avez pas de demande persos, veuillez mettre votre compte à jour.
             {% else %}
                 <tr>
                     <th>Titre</th>
@@ -12,7 +13,7 @@
                     <th>Description</th>
                     <th>Action</th>
                 </tr>
-                {%  for element in supports %}
+                {%  for element in supportsCompany %}
                     <tr>
                         <td>{{ element.title }}</td>
                         <td>{{ element.createdAt | date }}</td>
@@ -21,8 +22,28 @@
                     </tr>
                 {% endfor %}
 
-                {% if supports.haveToPaginate %}
-                    {{  pagerfanta(supports, 'twitter_bootstrap4') }}
+                {% if supportsCompany.haveToPaginate %}
+                    {{  pagerfanta(supportsCompany, 'twitter_bootstrap4') }}
+                {% endif %}
+
+                Les demandes de ma compagnie :
+                <tr>
+                    <th>Titre</th>
+                    <th>Date création</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+                {%  for element in supportsCompany %}
+                    <tr>
+                        <td>{{ element.title }}</td>
+                        <td>{{ element.createdAt | date }}</td>
+                        <td>{{ element.description }}</td>
+                        <td><a class="btn btn-primary" href="{{path('support_show', { 'id': element.id })}}">Voir la demande</a</td>
+                    </tr>
+                {% endfor %}
+
+                {% if supportsCompany.haveToPaginate %}
+                    {{  pagerfanta(supportsCompany, 'twitter_bootstrap4') }}
                 {% endif %}
             {% endif %}
         </table>

@@ -29,14 +29,15 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $this->encoder = $encoder;
 
         //3 USER, 1 ADMIN, 1 SUPER ADMIN
-        for ($i = 0; $i < 3; ++$i) {
+        for ($i = 1; $i <= 3; ++$i) {
             $this->users[] =
                 [
                     'mail' => 'user'.$i.'@test.com',
                     'password' => 'test',
                     'role' => ['ROLE_USER'],
                     'name' => 'user'.$i,
-                    'company' => 'company-1',
+                    'company' => 'company-'.$i,
+                    'reference' => 'user-'.$i,
                 ];
         }
 
@@ -46,7 +47,6 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'password' => 'test',
                 'role' => ['ROLE_ADMIN'],
                 'name' => 'admin',
-                'company' => 'company-1',
             ];
 
         $this->users[] =
@@ -55,7 +55,6 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'password' => 'test',
                 'role' => ['ROLE_SUPER_ADMIN'],
                 'name' => 'super-admin',
-                'company' => 'company-1',
             ];
     }
 
@@ -67,6 +66,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         foreach ($this->users as $user) {
             $userResult = $this->createUser($user);
             $manager->persist($userResult);
+            if (isset($user['reference'])) {
+                $this->setReference($user['reference'], $userResult);
+            }
         }
         $manager->flush();
     }
@@ -94,7 +96,10 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setPassword($this->encoder->encodePassword($user, $userToCreate['password']));
         $user->setRoles($userToCreate['role']);
         $user->setUsername($userToCreate['name']);
-        $user->setCompany($this->getReference($userToCreate['company']));
+
+        if(isset($userToCreate['company'])) {
+            $user->setCompany($this->getReference($userToCreate['company']));
+        }
 
         return $user;
     }
