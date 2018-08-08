@@ -1,4 +1,5 @@
-{% extends 'base.html.twig' %}{% block body %}
+{% extends 'base.html.twig' %}
+{% block body %}
     <div class="container">
         <h2> Mes demandes de support</h2>
         <table class="table">
@@ -8,7 +9,6 @@
                 <th>Description</th>
                 <th>Action</th>
             </tr>
-
             {% if mySupports.nbResults is null  %}
                 <tr>
                     <td colspan="4" align="center"> Vous n'avez pas de demandes de supports associées.</td>
@@ -36,23 +36,25 @@
                     <th>Auteur</th>
                     <th>Action</th>
                 </tr>
-                {% if companySupports.nbResults is null  %}
-                    <tr>
-                        <td colspan="5" align="center"> Il n'y a pas de demandes concernant votre entreprise.</td>
-                    </tr>
-                {% else %}
-                    {%  for element in companySupports %}
-                        {# @var element \App\Entity\Support #}
+                {% if companySupports is not null %}
+                    {% if companySupports.nbResults is null  %}
                         <tr>
-                            <td>{{ element.title }}</td>
-                            <td>{{ element.createdAt | date }}</td>
-                            <td>{{ element.description }}</td>
-                            <td>{{ element.author }}</td>
-                            <td><a href="{{ path('support_show',{'id':element.id})}}">Voir la demande</a></td>
+                            <td colspan="5" align="center"> Il n'y a pas de demandes concernant votre entreprise.</td>
                         </tr>
-                    {% endfor %}
-                    {% if companySupports.haveToPaginate %}
-                        {{  pagerfanta(companySupports, 'twitter_bootstrap4',{'pageParameter':'[myCompanyPage]'})}}
+                    {% else %}
+                        {%  for element in companySupports %}
+                            {# @var element \App\Entity\Support #}
+                            <tr>
+                                <td>{{ element.title }}</td>
+                                <td>{{ element.createdAt | date }}</td>
+                                <td>{{ element.description }}</td>
+                                <td>{{ element.author }}</td>
+                                <td><a href="{{ path('support_show',{'id':element.id})}}">Voir la demande</a></td>
+                            </tr>
+                        {% endfor %}
+                        {% if companySupports.haveToPaginate %}
+                            {{  pagerfanta(companySupports, 'twitter_bootstrap4',{'pageParameter':'[myCompanyPage]'})}}
+                        {% endif %}
                     {% endif %}
                 {% endif %}
             </table>

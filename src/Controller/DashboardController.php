@@ -46,13 +46,13 @@ class DashboardController extends AbstractController
         $mySupportPage = $request->query->get('mySupportPage', '1');
         $myCompanyPage = $request->query->get('myCompanyPage', '1');
 
-        if ($user->getCompany()) {
-            $mySupportPager = $supportRepository->getPaginatedSupportByUser(
-                $user->getId(),
-                self::MAX_SUPPORT_DASHBOARD,
-                $mySupportPage
-            );
+        $mySupportPager = $supportRepository->getPaginatedSupportByUser(
+            $user->getId(),
+            self::MAX_SUPPORT_DASHBOARD,
+            $mySupportPage
+        );
 
+        if ($user->getCompany()) {
             $myCompanyPager = $supportRepository->getPaginatedSupportByCompanyMinusUser(
                 $user->getCompany()->getId(),
                 $user->getId(),
