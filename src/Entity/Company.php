@@ -63,16 +63,14 @@ class Company
      */
     private $projects;
 
-
     /**
      * @var User[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\User",
+     *                  mappedBy="company",
      *                  cascade={"persist"})
-     *
      */
     private $users;
-
 
     /**
      * Company constructor.

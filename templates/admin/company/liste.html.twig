@@ -7,12 +7,8 @@
             {{ company.label }}
             {{ ('company.active.'~(company.active?'1':'0')) | trans }}
 
-            <a href="{{ path('company_show', { 'id': company.id }) }}">Voir l'entreprise</a>
-            <a href="{{ path('company_update', { 'id': company.id }) }}">Modifier l'entreprise</a>
+            <a href="{{ path('admin_company_show', { 'id': company.id }) }}">Voir l'entreprise</a>
+            <a href="{{ path('admin_company_update', { 'id': company.id }) }}">Modifier l'entreprise</a>
         </p>
     {% endfor %}
-
-
-
-
 {% endblock %}

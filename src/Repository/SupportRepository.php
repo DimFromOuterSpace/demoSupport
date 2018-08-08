@@ -44,4 +44,33 @@ class SupportRepository extends ServiceEntityRepository
 
         return $pager;
     }
+
+    /**
+     * @param int $idUser
+     * @param int $number
+     * @param int $page
+     *
+     * @return Pagerfanta
+     */
+    public function getPaginatedSupportByUser(int $idAuthor, int $number = 10, int $page = 1): Pagerfanta
+    {
+        $queryBuilder = $this->createQueryBuilder('support')
+            ->andWhere('support.author = :idAuthor')
+            ->setParameter('idAuthor', $idAuthor)
+            ->orderBy('support.id', 'DESC');
+
+        return $this->paginate($queryBuilder, $number, $page);
+    }
+
+    public function getPaginatedSupportByCompanyMinusUser(int $idCompany, int $idAuthor, int $number = 10, int $page = 1): Pagerfanta
+    {
+        $queryBuilder = $this->createQueryBuilder('support')
+            ->andWhere('support.company = :idCompany')
+            ->andWhere('support.author <> :idAuthor')
+            ->setParameter('idCompany', $idCompany)
+            ->setParameter('idAuthor', $idAuthor)
+            ->orderBy('support.id', 'DESC');
+
+        return $this->paginate($queryBuilder, $number, $page);
+    }
 }

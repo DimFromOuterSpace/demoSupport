@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Form\CompanyType;
 use App\Entity\Company;
@@ -17,8 +17,8 @@ use App\Events;
  * Class CompanyController.
  *
  * @Route(
- *     path="company",
- *     name="company_"
+ *     path="admin/company",
+ *     name="admin_company_"
  * )
  */
 class CompanyController extends AbstractController
@@ -31,7 +31,7 @@ class CompanyController extends AbstractController
     private $companyRepository;
 
     /**
-     * CompanyController constructor.
+     * @param CompanyRepository $companyRepository
      */
     public function __construct(CompanyRepository $companyRepository)
     {
@@ -39,15 +39,17 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route(path = "",
-     *          name="list")
+     * @Route(
+     *     path = "",
+     *     name="list"
+     * )
      */
-    public function index(Request $request)
+    public function index()
     {
         /** @var Company[] $companies */
         $companies = $this->companyRepository->getLastCompanies(5);
 
-        return $this->render('company/liste.html.twig', ['companies' => $companies]);
+        return $this->render('admin/company/liste.html.twig', ['companies' => $companies]);
     }
 
     /**
@@ -55,6 +57,11 @@ class CompanyController extends AbstractController
      *     path = "/new",
      *     name="new"
      * )
+     *
+     * @param Request                  $request
+     * @param EventDispatcherInterface $dispatcher
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newCompany(Request $request, EventDispatcherInterface $dispatcher)
     {
@@ -67,10 +74,10 @@ class CompanyController extends AbstractController
             $manager->flush();
             $dispatcher->dispatch(Events::COMPANY_CREATED, new GenericEvent($company));
 
-            return $this->redirectToRoute('company_show', ['id' => $company->getId()]);
+            return $this->redirectToRoute('admin_company_show', ['id' => $company->getId()]);
         }
 
-        return $this->render('company/new.html.twig', ['form' => $form->createView()]);
+        return $this->render('admin/company/new.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -78,6 +85,11 @@ class CompanyController extends AbstractController
      *     path = "/update/{id}",
      *     name="update"
      * )
+     *
+     * @param Request $request
+     * @param Company $company
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function updateCompany(Request $request, Company $company)
     {
@@ -88,10 +100,10 @@ class CompanyController extends AbstractController
             $manager->persist($company);
             $manager->flush();
 
-            return $this->redirectToRoute('company_show', ['id' => $company->getId()]);
+            return $this->redirectToRoute('admin_company_show', ['id' => $company->getId()]);
         }
 
-        return $this->render('company/update.html.twig', ['form' => $form->createView()]);
+        return $this->render('admin/company/update.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -99,17 +111,22 @@ class CompanyController extends AbstractController
      *     path = "/delete/{id}",
      *     name="delete"
      * )
+     *
+     * @param Request $request
+     * @param Company $company
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteCompany(Request $request, Company $company)
     {
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
-            return $this->redirectToRoute('company_list', ['company' => $company]);
+            return $this->redirectToRoute('admin_company_list', ['company' => $company]);
         }
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($company);
         $manager->flush();
 
-        return $this->redirectToRoute('company_list');
+        return $this->redirectToRoute('admin_company_list');
     }
 
     /**
@@ -118,6 +135,12 @@ class CompanyController extends AbstractController
      *     name="show",
      *     methods={"GET"}
      * )
+     *
+     * @param Company           $company
+     * @param Request           $request
+     * @param SupportRepository $supportRepository
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showCompany(Company $company, Request $request, SupportRepository $supportRepository)
     {
@@ -125,7 +148,7 @@ class CompanyController extends AbstractController
 
         $pager = $supportRepository->getPaginatedSupportByCompany($company->getId(), self::MAX_SUPPORT_BY_COMPANY, $page);
 
-        return $this->render('company/show.html.twig', [
+        return $this->render('admin/company/show.html.twig', [
             'company' => $company,
             'supports' => $pager,
         ]);

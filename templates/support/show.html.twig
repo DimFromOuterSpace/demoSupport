@@ -6,11 +6,8 @@
         <p>{{ support.createdAt | date }}</p>
         <p>{{ support.description }}</p>
 
-        <form method="POST" action="{{ path('support_delete', {'id': support.id}) }}">
-            <a class="btn btn-primary" href="{{path('support_list')}}">Retour à la liste</a>
-            <input type="hidden" name="token" value="{{ csrf_token('delete') }}">
-            <button type="submit" class="btn btn-primary">Supprimer la demande</button>
-        </form>
+        <a class="btn btn-primary" href="{{path('dashboard')}}">Retour à la liste</a>
+
     </div>
 {% endblock %}
 

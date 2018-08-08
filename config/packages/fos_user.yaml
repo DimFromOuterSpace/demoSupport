@@ -5,4 +5,7 @@ fos_user:
   from_email:
     address: test
     sender_name: test
+  registration:
+    form:
+      type: App\Form\User\RegistrationType
 

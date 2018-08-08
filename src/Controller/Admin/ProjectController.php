@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,8 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route(
- *     path="project",
- *     name="project_"
+ *     path="admin/project",
+ *     name="admin_project_"
  * )
  */
 class ProjectController extends AbstractController
@@ -45,11 +45,15 @@ class ProjectController extends AbstractController
         /** @var Project[] $projects */
         $projects = $this->projectRepository->getProject();
 
-        return $this->render('project/liste.html.twig', ['projects' => $projects]);
+        return $this->render('admin/project/liste.html.twig', ['projects' => $projects]);
     }
 
     /**
      * @Route(path = "/project/new")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function newProject(Request $request)
     {
@@ -63,7 +67,7 @@ class ProjectController extends AbstractController
             $manager->persist($project);
             $manager->flush();
 
-            return $this->redirectToRoute('project_show', ['id' => $project->getId()]);
+            return $this->redirectToRoute('admin_project_show', ['id' => $project->getId()]);
         }
 
         return $this->render('admin/empty_page.html.twig', ['form' => $form->createView()]);
@@ -82,7 +86,7 @@ class ProjectController extends AbstractController
      */
     public function showProject(Project $project)
     {
-        return $this->render('project/show.html.twig', [
+        return $this->render('admin/project/show.html.twig', [
             'project' => $project,
         ]);
     }
@@ -101,13 +105,13 @@ class ProjectController extends AbstractController
     public function deleteProject(Request $request, Project $project)
     {
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
-            return $this->redirectToRoute('project_list', ['project' => $project]);
+            return $this->redirectToRoute('admin_project_list', ['project' => $project]);
         }
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($project);
         $manager->flush();
 
-        return $this->redirectToRoute('project_list');
+        return $this->redirectToRoute('admin_project_list');
     }
 
     /**
@@ -130,9 +134,9 @@ class ProjectController extends AbstractController
             $manager->persist($project);
             $manager->flush();
 
-            return $this->redirectToRoute('project_show', ['id' => $project->getId()]);
+            return $this->redirectToRoute('admin_project_show', ['id' => $project->getId()]);
         }
 
-        return $this->render('project/update.html.twig', ['form' => $form->createView()]);
+        return $this->render('admin/project/update.html.twig', ['form' => $form->createView()]);
     }
 }

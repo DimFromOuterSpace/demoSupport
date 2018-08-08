@@ -48,6 +48,12 @@ class Support
     private $company;
 
     /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="supports")
+     */
+    private $author;
+
+    /**
      * Support constructor.
      */
     public function __construct()
@@ -125,5 +131,21 @@ class Support
     public function setCompany(?Company $company): void
     {
         $this->company = $company;
+    }
+
+    /**
+     * @return User
+     */
+    public function getAuthor(): User
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param User $author
+     */
+    public function setAuthor(User $author): void
+    {
+        $this->author = $author;
     }
 }

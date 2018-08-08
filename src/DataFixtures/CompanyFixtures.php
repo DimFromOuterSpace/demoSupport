@@ -16,7 +16,6 @@ class CompanyFixtures extends Fixture
             $company->setMailContact('dusseno@os-concept.com');
             $manager->persist($company);
             $this->setReference('company-'.$i, $company);
-
         }
 
         $manager->flush();

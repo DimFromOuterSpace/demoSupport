@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Company;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -35,34 +36,35 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                'password' => 'dusseno',
                'roles' => [],
                'company' => 'company-1',
+               'reference' => 'user-1',
             ],
             [
                 'username' => 'tdelecourt',
                 'email' => 'tdelecourt@os-concept.com',
                 'password' => 'tdelecourt',
                 'roles' => ['ROLE_USER'],
-                'company' => 'company-2',
+                'company' => 'company-1',
+                'reference' => 'user-2',
             ],
             [
                 'username' => 'bcanape',
                 'email' => 'bcanape@os-concept.com',
                 'password' => 'bcanape',
                 'roles' => ['ROLE_USER'],
-                'company' => 'company-3',
+                'company' => 'company-2',
+                'reference' => 'user-3',
             ],
             [
                 'username' => 'jrigaux',
                 'email' => 'jrigaux@os-concept.com',
                 'password' => 'jrigaux',
                 'roles' => ['ROLE_ADMIN'],
-                'company' => 'company-4',
             ],
             [
                 'username' => 'awelkamp',
                 'email' => 'awelkamp@os-concept.com',
                 'password' => 'awelkamp',
                 'roles' => ['ROLE_SUPER_ADMIN'],
-                'company' => 'company-5',
             ],
         ];
     }
@@ -103,10 +105,16 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setEnabled(1);
         $user->setRoles($tabUser['roles']);
 
-        $user->setCompany($tabUser['company']);
+        /** @var Company $company */
+        $company = isset($tabUser['company']) ? $this->getReference($tabUser['company']) : null;
+        $user->setCompany($company);
 
         $password = $this->passwordEncoder->encodePassword($user, $tabUser['password']);
         $user->setPassword($password);
+
+        if (isset($tabUser['reference'])) {
+            $this->setReference($tabUser['reference'], $user);
+        }
 
         return $user;
     }

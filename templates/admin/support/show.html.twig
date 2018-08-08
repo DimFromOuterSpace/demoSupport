@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <p>{{ support.title }}</p>
+        <p>{{ support.createdAt | date }}</p>
+        <p>{{ support.description }}</p>
+
+        <form method="POST" action="{{ path('admin_support_delete', {'id': support.id}) }}">
+            <a class="btn btn-primary" href="{{path('admin_support_list')}}">Retour à la liste</a>
+            <input type="hidden" name="token" value="{{ csrf_token('delete') }}">
+            <button type="submit" class="btn btn-primary">Supprimer la demande</button>
+        </form>
+    </div>
+{% endblock %}
+

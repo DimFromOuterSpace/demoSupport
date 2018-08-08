@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use App\Form\SupportType;
 use App\Entity\Support;
+use App\Entity\User;
+use App\Form\SupportType;
 use App\Repository\SupportRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +30,8 @@ class SupportController extends AbstractController
 
     /**
      * SupportController constructor.
+     *
+     * @param SupportRepository $supportRepository
      */
     public function __construct(SupportRepository $supportRepository)
     {
@@ -36,30 +40,28 @@ class SupportController extends AbstractController
 
     /**
      * @Route(
-     *     path = "",
-     *     name="list"
-     *)
-     */
-    public function index(Request $request)
-    {
-        $page = $request->query->get('page', 1);
-
-        $pager = $this->supportRepository->getLastSupport(self::MAX_SUPPORT_PAGE, $page);
-
-        return $this->render('support/liste.html.twig', ['supports' => $pager]);
-    }
-
-    /**
-     * @Route(
      *     path = "/new",
      *     name="new"
      * )
+     * @IsGranted("ROLE_USER")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newSupport(Request $request)
     {
+        if (!$this->getUser()->getCompany()) {
+            return $this->redirectToRoute('dashboard');
+        }
         $support = new Support();
+        /** @var User $userCompany * */
+        $userCompany = $this->getUser();
+        $support->setCompany($userCompany->getCompany());
         $form = $this->createForm(SupportType::class, $support);
+
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($support);
@@ -73,52 +75,26 @@ class SupportController extends AbstractController
 
     /**
      * @Route(
-     *     path = "/update/{id}",
-     *     name="update"
-     * )
-     */
-    public function updateSupport(Request $request, Support $support)
-    {
-        $form = $this->createForm(SupportType::class, $support);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($support);
-            $manager->flush();
-
-            return $this->redirectToRoute('support_show', ['id' => $support->getId()]);
-        }
-
-        return $this->render('support/update.html.twig', ['form' => $form->createView()]);
-    }
-
-    /**
-     * @Route(
-     *     path = "/delete/{id}",
-     *     name="delete"
-     * )
-     */
-    public function deleteSupport(Request $request, Support $support)
-    {
-        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
-            return $this->redirectToRoute('support_list', ['support' => $support]);
-        }
-        $manager = $this->getDoctrine()->getManager();
-        $manager->remove($support);
-        $manager->flush();
-
-        return $this->redirectToRoute('support_list');
-    }
-
-    /**
-     * @Route(
      *     path = "/show/{id}",
      *     name="show",
      *     methods={"GET"}
      * )
+     *
+     * @param Support $support
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showSupport(Support $support)
+    public function showSupport(int $id)
     {
+        $support = $this->supportRepository->findOneBy([
+                    'id' => $id,
+                    'company' => $this->getUser()->getCompany(),
+        ]);
+
+        if (!$support) {
+            return $this->redirectToRoute('dashboard');
+        }
+
         return $this->render('support/show.html.twig', [
             'support' => $support,
         ]);
