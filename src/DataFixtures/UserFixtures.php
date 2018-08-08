@@ -29,17 +29,27 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $this->encoder = $encoder;
 
         //3 USER, 1 ADMIN, 1 SUPER ADMIN
-        for ($i = 1; $i <= 3; ++$i) {
+        for ($i = 1; $i <= 2; ++$i) {
             $this->users[] =
                 [
                     'mail' => 'user'.$i.'@test.com',
                     'password' => 'test',
                     'role' => ['ROLE_USER'],
                     'name' => 'user'.$i,
-                    'company' => 'company-'.$i,
+                    'company' => 'company-1',
                     'reference' => 'user-'.$i,
                 ];
         }
+
+        $this->users[] =
+            [
+                'mail' => 'user3@test.com',
+                'password' => 'test',
+                'role' => ['ROLE_USER'],
+                'name' => 'user3',
+                'company' => 'company-2',
+                'reference' => 'user-3',
+            ];
 
         $this->users[] =
             [
@@ -97,7 +107,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setRoles($userToCreate['role']);
         $user->setUsername($userToCreate['name']);
 
-        if(isset($userToCreate['company'])) {
+        if (isset($userToCreate['company'])) {
             $user->setCompany($this->getReference($userToCreate['company']));
         }
 

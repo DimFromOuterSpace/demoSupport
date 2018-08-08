@@ -61,7 +61,6 @@ class SupportController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($support);
             $manager->flush();
@@ -102,7 +101,6 @@ class SupportController extends AbstractController
      */
     public function deleteSupport(Request $request, Support $support)
     {
-
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             return $this->redirectToRoute('admin_support_list', ['support' => $support]);
         }
@@ -123,7 +121,6 @@ class SupportController extends AbstractController
      */
     public function showSupport(Support $support)
     {
-
         return $this->render('admin/support/show.html.twig', [
             'support' => $support,
         ]);

@@ -13,39 +13,44 @@
                     <th>Description</th>
                     <th>Action</th>
                 </tr>
-                {%  for element in supportsCompany %}
+                {%  for support in supportsUser %}
                     <tr>
-                        <td>{{ element.title }}</td>
-                        <td>{{ element.createdAt | date }}</td>
-                        <td>{{ element.description }}</td>
-                        <td><a class="btn btn-primary" href="{{path('support_show', { 'id': element.id })}}">Voir la demande</a</td>
+                        <td>{{ support.title }}</td>
+                        <td>{{ support.createdAt | date }}</td>
+                        <td>{{ support.description }}</td>
+                        <td><a class="btn btn-primary" href="{{path('support_show', { 'id': support.id })}}">Voir la demande</a</td>
                     </tr>
                 {% endfor %}
+        </table>
 
-                {% if supportsCompany.haveToPaginate %}
-                    {{  pagerfanta(supportsCompany, 'twitter_bootstrap4') }}
-                {% endif %}
-
-                Les demandes de ma compagnie :
+        {% if supportsUser.haveToPaginate %}
+            {{  pagerfanta(supportsUser, 'twitter_bootstrap4', {'pageParameter': '[pageSupportUser]'}) }}
+        {% endif %}
+        Les demandes de ma compagnie :
+        <table class="table">
                 <tr>
                     <th>Titre</th>
                     <th>Date création</th>
                     <th>Description</th>
+                    <th>Auteur</th>
                     <th>Action</th>
                 </tr>
-                {%  for element in supportsCompany %}
+                {%  for support in supportsCompany %}
+                    {# @var support \App\Entity\Support #}
                     <tr>
-                        <td>{{ element.title }}</td>
-                        <td>{{ element.createdAt | date }}</td>
-                        <td>{{ element.description }}</td>
-                        <td><a class="btn btn-primary" href="{{path('support_show', { 'id': element.id })}}">Voir la demande</a</td>
+                        <td>{{ support.title }}</td>
+                        <td>{{ support.createdAt | date }}</td>
+                        <td>{{ support.description }}</td>
+                        <td>{{ support.author }}</td>
+                        <td><a class="btn btn-primary" href="{{path('support_show', { 'id': support.id })}}">Voir la demande</a</td>
                     </tr>
                 {% endfor %}
-
-                {% if supportsCompany.haveToPaginate %}
-                    {{  pagerfanta(supportsCompany, 'twitter_bootstrap4') }}
-                {% endif %}
             {% endif %}
         </table>
+
+        {% if supportsCompany.haveToPaginate %}
+            {{  pagerfanta(supportsCompany, 'twitter_bootstrap4', {'pageParameter': '[pageSupportCompany]'}) }}
+        {% endif %}
+
     </div>
 {% endblock %}
