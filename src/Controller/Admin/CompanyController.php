@@ -105,7 +105,6 @@ class CompanyController extends AbstractController
     public function deleteCompany(Request $request, Company $company)
     {
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
-
             return $this->redirectToRoute('admin_company_list', ['company' => $company]);
         }
 

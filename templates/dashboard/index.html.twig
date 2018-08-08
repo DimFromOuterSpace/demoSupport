@@ -4,9 +4,6 @@
     <div class="container">
         <table class="table">
             Mes demandes :
-            {% if supportsCompany is null %}
-                Vous n'avez pas de demande persos, veuillez mettre votre compte à jour.
-            {% else %}
                 <tr>
                     <th>Titre</th>
                     <th>Date création</th>
@@ -26,31 +23,31 @@
         {% if supportsUser.haveToPaginate %}
             {{  pagerfanta(supportsUser, 'twitter_bootstrap4', {'pageParameter': '[pageSupportUser]'}) }}
         {% endif %}
-        Les demandes de ma compagnie :
-        <table class="table">
-                <tr>
-                    <th>Titre</th>
-                    <th>Date création</th>
-                    <th>Description</th>
-                    <th>Auteur</th>
-                    <th>Action</th>
-                </tr>
-                {%  for support in supportsCompany %}
-                    {# @var support \App\Entity\Support #}
+        {% if supportsCompany is not null %}
+            Les demandes de ma compagnie :
+            <table class="table">
                     <tr>
-                        <td>{{ support.title }}</td>
-                        <td>{{ support.createdAt | date }}</td>
-                        <td>{{ support.description }}</td>
-                        <td>{{ support.author }}</td>
-                        <td><a class="btn btn-primary" href="{{path('support_show', { 'id': support.id })}}">Voir la demande</a</td>
+                        <th>Titre</th>
+                        <th>Date création</th>
+                        <th>Description</th>
+                        <th>Auteur</th>
+                        <th>Action</th>
                     </tr>
-                {% endfor %}
+                    {%  for support in supportsCompany %}
+                        {# @var support \App\Entity\Support #}
+                        <tr>
+                            <td>{{ support.title }}</td>
+                            <td>{{ support.createdAt | date }}</td>
+                            <td>{{ support.description }}</td>
+                            <td>{{ support.author }}</td>
+                            <td><a class="btn btn-primary" href="{{path('support_show', { 'id': support.id })}}">Voir la demande</a</td>
+                        </tr>
+                    {% endfor %}
+            </table>
+
+            {% if supportsCompany.haveToPaginate %}
+                {{  pagerfanta(supportsCompany, 'twitter_bootstrap4', {'pageParameter': '[pageSupportCompany]'}) }}
             {% endif %}
-        </table>
-
-        {% if supportsCompany.haveToPaginate %}
-            {{  pagerfanta(supportsCompany, 'twitter_bootstrap4', {'pageParameter': '[pageSupportCompany]'}) }}
         {% endif %}
-
     </div>
 {% endblock %}

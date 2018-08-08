@@ -59,7 +59,7 @@ class DashboardController extends AbstractController
         }
 
         return $this->render('dashboard/index.html.twig', [
-            'supportsUser' => $pagerUser ?? null,
+            'supportsUser' => $pagerUser,
             'supportsCompany' => $pagerCompany ?? null,
         ]);
     }

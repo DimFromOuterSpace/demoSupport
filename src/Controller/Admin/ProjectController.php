@@ -82,7 +82,6 @@ class ProjectController extends AbstractController
      */
     public function showProject(Project $project)
     {
-
         return $this->render('admin/project/show.html.twig', [
             'project' => $project,
         ]);
