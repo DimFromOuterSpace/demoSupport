@@ -2,13 +2,16 @@
 
 namespace App\Controller\Admin;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Project;
 use App\Form\Admin\ProjectType;
 use App\Repository\ProjectRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tetranz\Select2EntityBundle\Service\AutocompleteService;
+use App\Transformer\ProjectTransformer;
 
 /**
  * @Route(
@@ -73,7 +76,8 @@ class ProjectController extends AbstractController
      * @Route(
      *     path      = "/{id}",
      *     name      = "show",
-     *     methods   = {"GET"}
+     *     methods   = {"GET"},
+     *     requirements={"id":"\d+"},
      * )
      *
      * @param Project $project
@@ -136,5 +140,23 @@ class ProjectController extends AbstractController
         }
 
         return $this->render('admin/project/update.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/autocomplete", name="ajax_autocomplete")
+     *
+     * @param Request             $request
+     * @param AutocompleteService $autocompleteService
+     *
+     * @return JsonResponse
+     */
+    public function autocompleteAction(Request $request, ProjectTransformer $projectTransformer)
+    {
+        $result = $this
+            ->getDoctrine()
+            ->getRepository(Project::class)
+            ->findForAutocomplete($request->get('q'), $request->get('page_limit'));
+
+        return new JsonResponse($projectTransformer->transforms($result));
     }
 }

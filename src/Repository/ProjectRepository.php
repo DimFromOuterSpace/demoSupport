@@ -20,4 +20,14 @@ class ProjectRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function findForAutocomplete(?string $query, ?int $limit = 10)
+    {
+        return $this->createQueryBuilder('project')
+            ->where('project.nom LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

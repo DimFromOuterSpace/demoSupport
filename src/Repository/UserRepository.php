@@ -18,4 +18,16 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    public function getUserEmail(array $emails)
+    {
+        $result = $this
+            ->createQueryBuilder("user")
+            ->where("user.email IN (:emails)")
+            ->setParameter("emails", $emails)
+            ->getQuery()
+            ->getResult();
+        return array_combine(array_column($result,"email"), array_column($result, "email"));
+
+    }
 }

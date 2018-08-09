@@ -3,7 +3,8 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form-themes:
-        - bootstrap_4_layout.html.twig
+        - 'bootstrap_4_layout.html.twig'
+        - 'TetranzSelect2EntityBundle:Form:fields.html.twig'
     date:
       #format: d/m/Y, H:i:s
       timezone: Europe/Paris

@@ -70,7 +70,7 @@ class Company
      * @ORM\OrderBy(
      *     {"nom":"ASC"}
      * )
-     * @Assert\Count(min="0",minMessage="company.constraint.project.min")
+     * @Assert\Count(min="1",minMessage="company.constraint.project.min")
      */
     //TODO : revoir fixtures
     private $projects;
