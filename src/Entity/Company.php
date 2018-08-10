@@ -157,6 +157,7 @@ class Company
     public function removeSupport(Support $support): void
     {
         $support->setCompany(null);
+
         $this->supports->removeElement($support);
     }
 
@@ -177,6 +178,7 @@ class Company
     public function removeUser(User $user): void
     {
         $user->setCompany(null);
+
         $this->users->removeElement($user);
     }
 

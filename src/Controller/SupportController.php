@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route(
- *     path="dashboard/support",$row['firstname']
+ *     path="dashboard/support",
  *     name="support_"
  * )
  */
@@ -79,6 +79,7 @@ class SupportController extends AbstractController
     {
         /** @var Company $company */
         $company = $this->getUser()->getCompany();
+        /** @var Support $support */
         $support = $this->supportRepository->findOneBy([
             'id' => $id,
             'company' => $company,

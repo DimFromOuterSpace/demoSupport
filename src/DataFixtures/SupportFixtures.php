@@ -25,6 +25,7 @@ class SupportFixtures extends Fixture implements DependentFixtureInterface
             $support->setCompany($user->getCompany());
             $support->setAuthor($user);
             $manager->persist($support);
+            $this->setReference('support-'.$i, $support);
         }
 
         $manager->flush();

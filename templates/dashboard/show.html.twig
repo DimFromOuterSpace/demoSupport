@@ -6,7 +6,14 @@
         <p>{{ support.createdAt | date }}</p>
         <p>{{ support.description }}</p>
 
-        <a class="btn btn-primary" href="{{path('dashboard_index')}}">Retour à la liste</a>
+        {% for comment in support.comments %}
+            {# @var comment \App\Entity\Comment #}
+            <p>Créée le : {{ comment.createdAt|date }}</p>
+            <p>Modifiée le : {{ comment.updatedAt|date   }}</p>
+            <p>Auteur : {{ comment.author.username }}</p>
+            <p>Description : {{ comment.content }}</p>
+        {% endfor %}
+        <a class="btn btn-primary" href="{{path('dashboard_dashboard')}}">Retour à la liste</a>
     </div>
 {% endblock %}
 

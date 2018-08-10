@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -55,11 +57,23 @@ class Support
     private $company;
 
     /**
+     * @var ArrayCollection|Comment[]
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Comment",
+     *     mappedBy="support"
+     * )
+     *
+     */
+    private $comments;
+
+    /**
      * Support constructor.
      */
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -148,5 +162,32 @@ class Support
     public function setAuthor(?User $author): void
     {
         $this->author = $author;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getComments(): ?Collection
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function addComment(?Comment $comment): void
+    {
+        $comment->setSupport($this);
+
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+        }
+    }
+
+    public function removeComment(?Comment $comment): void
+    {
+        $comment->setSupport(null);
+
+        $this->comments->removeElement($comment);
     }
 }

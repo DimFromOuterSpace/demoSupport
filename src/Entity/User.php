@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -12,6 +13,13 @@ use FOS\UserBundle\Model\User as BaseUser;
 class User extends BaseUser
 {
     /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    protected $id;
+
+    /**
      * @var Company
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
      */
@@ -19,19 +27,23 @@ class User extends BaseUser
 
     /**
      * @var Support[]|ArrayCollection
-     * @ORM\OneToMany(  targetEntity="App\Entity\Support",
-     *                  mappedBy="user",
-     *                  orphanRemoval=true,
-     *                  cascade={"persist"})
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Support",
+     *     mappedBy="author",
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
+     * )
      */
     private $supports;
 
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var Comment[]|ArrayCollection
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Comment",
+     *     mappedBy="author"
+     * )
      */
-    protected $id;
+    private $comments;
 
     public function __construct()
     {
@@ -58,7 +70,7 @@ class User extends BaseUser
     /**
      * @return ArrayCollection
      */
-    public function getSupports(): ArrayCollection
+    public function getSupports(): Collection
     {
         return $this->supports;
     }
@@ -76,11 +88,40 @@ class User extends BaseUser
     }
 
     /**
-     * @param Support $support
+     * @param Comment $comment
      */
     public function removeSupport(Support $support): void
     {
         $support->setAuthor(null);
         $this->supports->removeElement($support);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment|null $comment
+     */
+    public function addComment(?Comment $comment): void
+    {
+        $comment->setAuthor($this);
+
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+        }
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function removeComment(Comment $comment): void
+    {
+        $comment->setAuthor(null);
+        $this->comments->removeElement($comment);
     }
 }
